@@ -105,6 +105,12 @@ class _PostScreenState extends State<PostScreen> {
                             ),
                           ),
                           PopupMenuItem(
+                            onTap: () {
+                              // Navigator.pop(context);
+                              ref
+                                  .child(snapshot.child('id').value.toString())
+                                  .remove();
+                            },
                             value: 1,
                             child: ListTile(
                               leading: Icon(Icons.delete),
