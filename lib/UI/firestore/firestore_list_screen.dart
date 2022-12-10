@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
@@ -19,6 +20,8 @@ class FireStoreScreen extends StatefulWidget {
 class _FireStoreScreenState extends State<FireStoreScreen> {
   final auth = FirebaseAuth.instance;
   final editController = TextEditingController();
+  final fireStore =
+      FirebaseFirestore.instance.collection('new collection').snapshots();
 
   @override
   void initState() {
@@ -67,15 +70,27 @@ class _FireStoreScreenState extends State<FireStoreScreen> {
           SizedBox(
             height: 10,
           ),
-          Expanded(
-              child: ListView.builder(
-            itemCount: 10,
-            itemBuilder: (context, index) {
-              return ListTile(
-                title: Text('Nitin'),
-              );
+          StreamBuilder<QuerySnapshot>(
+            stream: fireStore,
+            builder:
+                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return CircularProgressIndicator();
+              }
+              if (snapshot.hasError) {
+                return Text('Some error');
+              }
+              return Expanded(
+                  child: ListView.builder(
+                itemCount: snapshot.data!.docs.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(snapshot.data!.docs[index]['title'].toString()),
+                  );
+                },
+              ));
             },
-          )),
+          ),
         ],
       ),
     );
