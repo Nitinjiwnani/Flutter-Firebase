@@ -5,6 +5,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_firebase/UI/auth/login_with_phone_number.dart';
 import 'package:flutter_firebase/UI/auth/singup_screen.dart';
+import 'package:flutter_firebase/UI/forgot_password.dart';
 import 'package:flutter_firebase/UI/posts/post_screen.dart';
 import 'package:flutter_firebase/utils/utils.dart';
 import 'package:flutter_firebase/widgets/round_button.dart';
@@ -123,6 +124,18 @@ class _LoginScreenState extends State<LoginScreen> {
                     login();
                   }
                 },
+              ),
+              Align(
+                alignment: Alignment.bottomRight,
+                child: TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ForgotPasswordScreen(),
+                          ));
+                    },
+                    child: Text('Forgot Password')),
               ),
               const SizedBox(
                 height: 30,
